@@ -1,0 +1,37 @@
+Adding git branch on the Bash/ZSH command prompt
+------------------------------------------------
+
+Add the following line to your .bashrc/.zshrc:
+  source ~/utils/git-prompt.sh
+(we assume git-prompt.sh is located in ~/utils/)
+
+Change your PS1 to call __git_ps1 as command-substitution:
+  Bash: 
+    PS1='\[\e]0;\w\a\]\n\[\e[32m\]\u@\h \[\e[33m\]\w\[\e[0m\]$(__git_ps1 " (%s)")\n\$ '
+  ZSH:  
+    setopt PROMPT_SUBST ; PS1='[%n@%m %c$(__git_ps1 " (%s)")]\$ '
+
+
+Adding git completion for the Bash
+----------------------------------
+
+Add the following line to your .bashrc:
+  source ~/utils/git-completion.bash
+
+
+Global git configuration
+------------------------
+
+Create symbolic link to local git.config to use it as global Git configuration:
+  $ ln -s ~/utils/git.config ~/.gitconfig
+
+
+Git scripts source
+------------------
+
+git-completion.bash and git-prompt.sh are taken from
+https://raw.githubusercontent.com/git/git/master/contrib/completion/
+
+  $ wget https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash
+  $ wget https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
+
