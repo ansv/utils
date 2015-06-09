@@ -35,3 +35,19 @@ https://raw.githubusercontent.com/git/git/master/contrib/completion/
   $ wget https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash
   $ wget https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
 
+
+Show diff output as two windows in vimdiff
+------------------------------------------
+
+To use you can create symbolic link to xd in /usr/local/bin:
+  $ ln -s ~/utils/xd /usr/local/bin/xd
+
+Usage:
+  $ git diff ... |xd
+  $ hg diff ... |xd
+  $ svn diff ... |xd
+  $ cat some.patch |xd
+
+You can also preprocess diff output to get more precise results:
+  $ git diff ... |grep -v ... |sed ... |xd
+  $ cat some.patch |grep -v ... |sed ... |xd

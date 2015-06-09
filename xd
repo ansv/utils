@@ -1,0 +1,29 @@
+#!/bin/sh
+
+# This script shows diff output as two windows in vimdiff.
+#
+# Usage:
+#   git diff ... |xd
+#   hg diff ... |xd
+#   svn diff ... |xd
+#   cat some.patch |xd
+#
+# You can also preprocess diff output to get more precise results:
+#   $ git diff ... |grep -v ... |sed ... |xd
+#   $ cat some.patch |grep -v ... |sed ... |xd
+
+mkdir -p ~/.di
+NAME=~/.di/`date +%s`
+
+# substitution to and from ' #xd\#' cares about "!! No newline at end of file" message
+
+# throw away "--- a/filename" and "+++ b/filename" to have less output
+# the filenames are anyway there in "diff" line
+
+cat |sed -e :a -e '$!N;s,\n\\, #xd\#,;ta' -e 'P;D' |egrep -v "^([-]{3}|[+]{3}) " >$NAME
+[ ! -s $NAME ] && echo no changes && exit
+
+egrep "^[^+]" $NAME |sed -r -e "s,^[- ],," -e "s, #xd\#,\n!!,g" >$NAME.0
+egrep "^[^-]" $NAME |sed -r -e "s,^[+ ],," -e "s, #xd\#,\n!!,g" >$NAME.1
+
+sh -c 'vimdiff -R "$@" <$0' /dev/tty $NAME.0 $NAME.1
