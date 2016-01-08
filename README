@@ -39,7 +39,7 @@ https://raw.githubusercontent.com/git/git/master/contrib/completion/
 Show diff output as two windows in vimdiff
 ------------------------------------------
 
-To use you can create symbolic link to xd in /usr/local/bin:
+To use you can create a symbolic link to xd in /usr/local/bin:
   $ ln -s ~/utils/xd /usr/local/bin/xd
 
 Usage:
