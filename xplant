@@ -1,0 +1,38 @@
+#!/bin/bash
+set -o nounset
+set -o errexit
+
+# TOP=$(guilt top)
+# [[ -z "$TOP" ]] && { echo "no patches applied, bye!"; exit; }
+# echo "current patch is $TOP"
+
+NEXT=$(guilt next)
+[[ -z "$NEXT" ]] && { echo "no next patch, bye!"; exit; }
+
+NEXTv=$(echo "${NEXT}.v1" |sed -r "s,([.]v[0-9]+).v1$,\1,")
+NEXTv=$(echo "$NEXTv" |sed -r "s,[0-9]+$,,")$((1 + $(echo "$NEXTv" |sed -r "s,.*v,,")))
+
+if [ "${1:-x}" != "-f" ]; then
+  echo "all editors closed (y/N)?"
+  read yes
+  [ "$yes" != "y" ] && { echo "bye!"; exit; }
+fi
+
+EXTRACT=xpl-`date +%Y-%m-%d-%H%M%S`
+
+echo
+echo "save diff to $EXTRACT ..."
+guilt new -f $EXTRACT
+
+echo
+echo "create $NEXTv and fold $NEXT ..."
+guilt diff |patch -p1 -R
+guilt new -f "$NEXTv"
+guilt fold "$NEXT"
+
+echo
+echo "pop to $EXTRACT ..."
+guilt pop
+
+echo
+echo "done"
