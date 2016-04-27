@@ -32,14 +32,30 @@ _guilt_arglist=(
     'status'
     'top'
     'unapplied'
-    'wipe'
+    'cat'
 )
 
 _guilt() {
     COMPREPLY=()
     _get_comp_words_by_ref cur prev words cword
 
-    COMPREPLY=($(compgen -W '${_guilt_arglist[@]}' -- "$cur"))
+    case "${words[1]}" in
+    push|fold)
+        COMPREPLY=($(compgen -W '$(guilt unapplied)' -- "$cur"))
+    	;;
+    pop)
+        COMPREPLY=($(compgen -W '$(guilt applied)' -- "$cur"))
+    	;;
+    delete)
+        COMPREPLY=($(compgen -W '$(guilt unapplied; guilt q -g)' -- "$cur"))
+    	;;
+    cat)
+        COMPREPLY=($(compgen -W '$(guilt applied; guilt unapplied; guilt q -g)' -- "$cur"))
+    	;;
+    *)
+        COMPREPLY=($(compgen -W '${_guilt_arglist[@]}' -- "$cur"))
+    	;;
+    esac
 
     true
 }
