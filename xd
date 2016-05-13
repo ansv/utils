@@ -20,7 +20,7 @@ NAME=~/.di/`date +%s`
 # throw away "--- a/filename" and "+++ b/filename" to have less output
 # the filenames are anyway there in "diff" line
 
-cat \
+cat "$@" \
   |sed -r "s/^([-]{2,3}\s*)$/ \1/" \
   |sed -e :a -e '$!N;s,\n\\, #xd\#,;ta' -e 'P;D' |egrep -v "^([-]{3}|[+]{3}) " >$NAME
 [ ! -s $NAME ] && echo no changes && exit
