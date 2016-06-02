@@ -30,7 +30,7 @@ echo; echo "save diff to $EXTRACT ..."
 guilt new -f "$EXTRACT"
 
 echo; echo "create $NEXTv ..."
-guilt diff |patch -p1 -R
+guilt diff |patch -p1 -R -d "$(git rev-parse --show-toplevel)"
 guilt new -f "$NEXTv"
 
 echo; echo "fold $NEXT ..."
