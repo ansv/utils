@@ -29,9 +29,11 @@ EXTRACT="xpl-${1:-$(date +%Y-%m-%d-%H%M%S)}"
 echo; echo "save diff to $EXTRACT ..."
 guilt new -f "$EXTRACT"
 
-echo; echo "create $NEXTv and fold $NEXT ..."
+echo; echo "create $NEXTv ..."
 guilt diff |patch -p1 -R
 guilt new -f "$NEXTv"
+
+echo; echo "fold $NEXT ..."
 guilt fold "$NEXT"
 
 echo; echo "pop to $EXTRACT ..."
