@@ -26,19 +26,15 @@ fi
 
 EXTRACT="xpl-${1:-$(date +%Y-%m-%d-%H%M%S)}"
 
-echo
-echo "save diff to $EXTRACT ..."
+echo; echo "save diff to $EXTRACT ..."
 guilt new -f "$EXTRACT"
 
-echo
-echo "create $NEXTv and fold $NEXT ..."
+echo; echo "create $NEXTv and fold $NEXT ..."
 guilt diff |patch -p1 -R
 guilt new -f "$NEXTv"
 guilt fold "$NEXT"
 
-echo
-echo "pop to $EXTRACT ..."
+echo; echo "pop to $EXTRACT ..."
 guilt pop
 
-echo
-echo "done"
+echo; echo "done"
