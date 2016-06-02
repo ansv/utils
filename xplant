@@ -6,7 +6,7 @@ set -o errexit
 # [[ -z "$TOP" ]] && { echo "no patches applied, bye!"; exit; }
 # echo "current patch is $TOP"
 
-NEXT=$(guilt next)
+NEXT="$(guilt next)"
 [[ -z "$NEXT" ]] && { echo "no next patch, bye!"; exit; }
 
 NEXTv=$(echo "${NEXT}.v1" |sed -r "s,([.]v[0-9]+).v1$,\1,")
