@@ -1,0 +1,78 @@
+set t_Co=256
+
+syntax enable
+
+set hidden " for CtrlSpace
+
+set hlsearch
+set ignorecase
+set smartcase
+set incsearch
+
+set scrolloff=17
+set colorcolumn=81
+
+set number
+set relativenumber
+
+set cursorline
+set cursorcolumn
+
+set background=dark
+let g:solarized_termcolors=256
+let g:solarized_contrast="high"
+colorscheme solarized
+
+set laststatus=2
+set statusline=%t[%{strlen(&fenc)?&fenc:'none'},%{&ff}]%h%m%r%y%=%c,%l/%L\ %P
+
+execute pathogen#infect()
+
+let g:gitgutter_max_signs=99999
+
+" CtrlSpace
+nnoremap <silent><C-p> :CtrlSpace O<CR>
+let g:CtrlSpaceLoadLastWorkspaceOnStart = 1
+"let g:CtrlSpaceSaveWorkspaceOnSwitch = 1
+"let g:CtrlSpaceSaveWorkspaceOnExit = 1
+
+" Ack on visual selection
+vnoremap <C-a> y:Ack <C-r>=fnameescape(@")<CR><CR>
+
+" motions in insert mode exit insert mode
+inoremap <Down> <Esc><Down>
+inoremap <Up> <Esc><Up>
+inoremap <Left> <Esc><Left>
+inoremap <Right> <Esc><Right>
+
+" control motions jumping between changes
+nnoremap <silent><C-Up> [c
+nnoremap <silent><C-Down> ]c
+
+" control motions changing active window
+nnoremap <silent><C-S-Up> :wincmd k<CR>
+nnoremap <silent><C-S-Down> :wincmd j<CR>
+nnoremap <silent><C-S-Left> :wincmd h<CR>
+nnoremap <silent><C-S-Right> :wincmd l<CR>
+
+" alt motions finding whole word
+nnoremap <silent><A-Up> #
+nnoremap <silent><A-Down> *
+
+" alt motions jumping between functions
+nnoremap <silent><A-Left> [[zt
+nnoremap <silent><A-Right> :nohlsearch<CR>]]zt
+
+" recall older/recent history with matching
+cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
+
+" change active window
+nnoremap <silent><C-k> :wincmd k<CR>
+nnoremap <silent><C-j> :wincmd j<CR>
+nnoremap <silent><C-h> :wincmd h<CR>
+nnoremap <silent><C-l> :wincmd l<CR>
+
+" alt-shift motions moving the line up/down
+nnoremap <A-S-Up> ddkP
+nnoremap <A-S-Down> ddp
