@@ -6,9 +6,9 @@ Add the following line to your .bashrc/.zshrc:
 (we assume git-prompt.sh is located in ~/utils/)
 
 Change your PS1 to call __git_ps1 as command-substitution:
-  Bash: 
+  Bash:
     PS1='\[\e]0;\w\a\]\n\[\e[32m\]\u@\h \[\e[33m\]\w\[\e[0m\]$(__git_ps1 " (%s)")\n\$ '
-  ZSH:  
+  ZSH:
     setopt PROMPT_SUBST ; PS1='[%n@%m %c$(__git_ps1 " (%s)")]\$ '
 
 
@@ -51,3 +51,13 @@ Usage:
 You can also preprocess diff output to get more precise results:
   $ git diff ... |grep -v ... |sed ... |xd
   $ cat some.patch |grep -v ... |sed ... |xd
+
+
+YouCompleteMe configuration for the linux kernel
+------------------------------------------------
+
+Replace "/home/pcie/ac/mld/" in the file ycm_extra_conf.py with your path to
+the kernel sources.  Then
+
+  $ ln -s ~/utils/ycm_extra_conf.py  <your-kernel-source-root>/.ycm_extra_conf.py
+
