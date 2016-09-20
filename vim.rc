@@ -36,6 +36,8 @@ let g:CtrlSpaceLoadLastWorkspaceOnStart = 1
 "let g:CtrlSpaceSaveWorkspaceOnSwitch = 1
 "let g:CtrlSpaceSaveWorkspaceOnExit = 1
 
+cnoremap :SS CtrlSpaceSave<CR>
+
 " Ack on visual selection
 vnoremap <C-a> y:Ack <C-r>=fnameescape(@")<CR><CR>
 
@@ -56,12 +58,12 @@ nnoremap <silent><C-S-Left> :wincmd h<CR>
 nnoremap <silent><C-S-Right> :wincmd l<CR>
 
 " alt motions finding whole word
-nnoremap <silent><A-Up> #
+nnoremap <silent><A-Up> *NN
 nnoremap <silent><A-Down> *
 
 " alt motions jumping between functions
-nnoremap <silent><A-Left> [[zt
-nnoremap <silent><A-Right> :nohlsearch<CR>]]zt
+nnoremap <silent><A-Left> [[b%b
+nnoremap <silent><A-Right> /^}<CR>:nohlsearch<CR>]]b%b
 
 " recall older/recent history with matching
 cnoremap <C-p> <Up>
@@ -76,3 +78,43 @@ nnoremap <silent><C-l> :wincmd l<CR>
 " alt-shift motions moving the line up/down
 nnoremap <A-S-Up> ddkP
 nnoremap <A-S-Down> ddp
+inoremap <A-S-Up> <Esc>ddkP
+inoremap <A-S-Down> <Esc>ddp
+
+" alt-shift motions moving the line left/right
+nnoremap <A-S-Left> <<
+nnoremap <A-S-Right> >>
+inoremap <A-S-Left> <Esc><<
+inoremap <A-S-Right> <Esc>>>
+
+nmap z7 :w<CR>
+nmap z1 :qa<CR>
+nmap z0 :qa!<CR>
+
+nmap gd :YcmCompleter GoTo<CR>
+
+nnoremap ZU "_
+
+nnoremap ZGD :Gdiff<CR>
+nnoremap ZGB :Gblame<CR>
+
+nnoremap ZDL :diffget LO<CR>
+nnoremap ZDR :diffget RE<CR>
+
+" diff off/on (unfolded & folded)
+nnoremap ZO :diffo<CR>
+nnoremap ZR :difft<CR>:diffu<CR>zr
+nnoremap ZM :difft<CR>:diffu<CR>zm
+
+cnoremap :WW set textwidth=72<CR>
+
+" abbreviations
+ab #i #include
+ab #d #define
+ab bo bool
+ab tr true
+ab fa false
+ab re return
+ab st static
+ab sw switch  <BS> " sw(
+ab wh while  <BS> " wh(
