@@ -12,6 +12,12 @@ NEXT="$(guilt next)"
 NEXTv=$(echo "${NEXT}.v1" |sed -r "s,([.]v[0-9]+).v1$,\1,")
 NEXTv=$(echo "$NEXTv" |sed -r "s,[0-9]+$,,")$((1 + $(echo "$NEXTv" |sed -r "s,.*v,,")))
 
+IMPLANT=""
+if [ "${1:-x}" = "-i" ]; then
+  shift
+  IMPLANT=y
+fi
+
 EXTRACT="xpl-${1:-$(date +%Y-%m-%d-%H%M%S)}"
 
 echo; echo "save diff to $EXTRACT ..."
@@ -26,5 +32,11 @@ guilt fold "$NEXT"
 
 echo; echo "pop to $EXTRACT ..."
 guilt pop
+
+if [ -n "${IMPLANT}" ]; then
+  echo; echo "implant into previous ..."
+  guilt pop
+  guilt fold $(guilt next)
+fi
 
 echo; echo "done"
