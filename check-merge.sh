@@ -1,12 +1,14 @@
-#!/bin/sh
+#!/bin/bash
 set -o nounset
 set -o errexit
 
-M=${1:-HEAD}
-B=${M}^2
-DEEP=${2:-1}
+echo "looking for the merge of '${1:?ERR: expected branch name as the first argument}' ..."
+MERGE=$(git log --oneline -7777 |grep " branch '$1'.* into " |head -n 1 |sed "s,\s.*,,")
+BRANCH=${MERGE:?not found}^2
+git log --oneline -1 $MERGE
 
-((git log --decorate -${DEEP} ${B}; git di ${B}~${DEEP} ${B}) |sed -r "s,(.*),- \1,"; \
- (git log --decorate -1       ${M}; git di ${M}^        ${M}) |sed -r "s,(.*),+ \1,") \
-   |egrep -v "^[+-] index[ 0-9a-f.]+$" \
-   |xd
+DEEP=${2:-$(git log --oneline ${MERGE}^1..${BRANCH} |wc -l)}
+
+vimdiff \
+	<(git log --decorate -${DEEP} ${BRANCH}; git di ${BRANCH}~${DEEP} ${BRANCH}) \
+	<(git log --decorate -1 ${MERGE}; git di ${MERGE}^ ${MERGE})
