@@ -12,18 +12,6 @@ NEXT="$(guilt next)"
 NEXTv=$(echo "${NEXT}.v1" |sed -r "s,([.]v[0-9]+).v1$,\1,")
 NEXTv=$(echo "$NEXTv" |sed -r "s,[0-9]+$,,")$((1 + $(echo "$NEXTv" |sed -r "s,.*v,,")))
 
-FORCE=""
-if [ "${1:-x}" = "-f" ]; then
-  shift
-  FORCE=y
-fi
-
-if [ -z "${FORCE}" ]; then
-  echo "all editors closed (y/N)?"
-  read yes
-  [ "$yes" != "y" ] && { echo "bye!"; exit; }
-fi
-
 EXTRACT="xpl-${1:-$(date +%Y-%m-%d-%H%M%S)}"
 
 echo; echo "save diff to $EXTRACT ..."
