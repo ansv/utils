@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [ "${1:-}" = "-v" ]; then
+  git log -$(guilt app |wc -l) -p  |egrep "^(comm|diff)" |sed -r -e "s,^di.* b/,  ./," -e "s,^commit (.{7}).*,\1,"
+else
+  git log -$(guilt app |wc -l) -p  |egrep "^(comm|diff)" |sed -r -e "s,^di.*/,  ," -e "s,^commit (.{7}).*,\1,"
+fi
