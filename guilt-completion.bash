@@ -47,10 +47,10 @@ _guilt() {
         COMPREPLY=($(compgen -W '$(guilt applied)' -- "$cur"))
     	;;
     delete)
-        COMPREPLY=($(compgen -W '$(guilt unapplied; guilt q -g)' -- "$cur"))
+        COMPREPLY=($(compgen -W '$(guilt unapplied; guilt g |sed "s,.*/,,")' -- "$cur"))
     	;;
     cat)
-        COMPREPLY=($(compgen -W '$(guilt applied; guilt unapplied; guilt q -g)' -- "$cur"))
+        COMPREPLY=($(compgen -W '$(guilt applied; guilt unapplied; guilt g |sed "s,.*/,,")' -- "$cur"))
     	;;
     *)
         COMPREPLY=($(compgen -W '${_guilt_arglist[@]}' -- "$cur"))
