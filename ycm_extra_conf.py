@@ -47,6 +47,7 @@ flags = [
     '-D__STDC__',
     '-Dunix',
     '-D__unix__',
+    '-DCONFIG_64BIT',
     '-Wbitwise',
     '-Wno-return-void',
 
