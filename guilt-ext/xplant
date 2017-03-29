@@ -20,23 +20,34 @@ fi
 
 EXTRACT="xpl-${1:-$(date +%Y-%m-%d-%H%M%S)}"
 
-echo; echo "save diff to $EXTRACT ..."
-guilt new -f "$EXTRACT"
+LOG="$(guilt path)/.xplant.log"
+date >>"$LOG"
 
-echo; echo "create $NEXTv ..."
-guilt diff |patch -p1 -R -d "$(git rev-parse --show-toplevel)"
-guilt new -f "$NEXTv"
+echo "$ guilt new -f $EXTRACT" >>"$LOG"
+guilt new -f "$EXTRACT" >>"$LOG"
 
-echo; echo "fold $NEXT ..."
-guilt fold "$NEXT"
+echo "$ git diff ..HEAD~1 >$(guilt path)/revert_$EXTRACT" >>"$LOG"
+git diff ..HEAD~1 >"$(guilt path)/revert_$EXTRACT"
 
-echo; echo "pop to $EXTRACT ..."
-guilt pop
+echo "$ guilt new $NEXTv" >>"$LOG"
+guilt new "$NEXTv" >>"$LOG"
+
+echo "$ guilt fold revert_$EXTRACT" >>"$LOG"
+guilt fold "revert_$EXTRACT" >>"$LOG"
+
+echo "$ guilt fold $NEXT" >>"$LOG"
+guilt fold "$NEXT" >>"$LOG"
+
+echo "$ guilt pop" >>"$LOG"
+guilt pop >>"$LOG"
 
 if [ -n "${IMPLANT}" ]; then
-  echo; echo "implant into previous ..."
-  guilt pop
-  guilt fold $(guilt next)
+  echo "$ guilt pop" >>"$LOG"
+  guilt pop >>"$LOG"
+
+  echo "$ guilt fold $(guilt next)" >>"$LOG"
+  guilt fold $(guilt next) >>"$LOG"
 fi
 
-echo; echo "done"
+echo >>"$LOG"
+echo "ok"
