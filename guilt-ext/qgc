@@ -1,0 +1,47 @@
+#!/bin/sh
+#
+# Copyright (c) Andrey Shvetsov, 2016
+#
+
+usage() {
+    echo "Usage: $0 [-s | --show-only | --all]" >&2
+    exit 1
+}
+
+_list_unused() {
+    local qpath="$1"
+    (ls -1 "$qpath"; cat "$qpath/series") |
+        egrep -v "^(status|series)$" |sort |uniq -u |
+        while read x; do echo "$qpath/$x"; done
+}
+
+_main() {
+    if [ $# -eq 1 ] && [ $1 = "-s" -o $1 = "--show-only" ]; then
+        show_only=t
+        shift
+    elif [ $# -eq 1 ] && [ $1 = "--all" ]; then
+        clean_all=t
+        shift
+    fi
+
+    if [ $# -gt 0 ]; then
+        usage
+    fi
+
+    local qpath="$(guilt path)"
+
+    if [ ! -z $show_only ]; then
+        _list_unused "$qpath"
+        return
+    fi
+
+    if [ ! -z $clean_all ]; then
+        _list_unused "$qpath" |while read x; do rm "$x"; done
+        return
+    fi
+
+    _list_unused "$qpath" |grep "~$" |while read x; do rm "$x"; done
+    _list_unused "$qpath"
+}
+
+_main "$@"

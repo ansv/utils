@@ -32,7 +32,6 @@ _guilt_arglist=(
     'status'
     'top'
     'unapplied'
-    'cat'
 )
 
 _guilt() {
@@ -47,10 +46,7 @@ _guilt() {
         COMPREPLY=($(compgen -W '$(guilt applied)' -- "$cur"))
     	;;
     delete)
-        COMPREPLY=($(compgen -W '$(guilt unapplied; guilt g |sed "s,.*/,,")' -- "$cur"))
-    	;;
-    cat)
-        COMPREPLY=($(compgen -W '$(guilt applied; guilt unapplied; guilt g |sed "s,.*/,,")' -- "$cur"))
+        COMPREPLY=($(compgen -W '$(guilt unapplied; qgc --show-only |grep -v ~$ |sed "s,.*/,,")' -- "$cur"))
     	;;
     *)
         COMPREPLY=($(compgen -W '${_guilt_arglist[@]}' -- "$cur"))

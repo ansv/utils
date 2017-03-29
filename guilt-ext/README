@@ -1,0 +1,84 @@
+This README explains how to get, install and adjust the guilt - the bash
+utility to work with patches on the git branches.
+
+Install git-guilt
+-----------------
+
+  $ git clone git://repo.or.cz/guilt.git guilt-src
+or
+  $ git clone https://github.com/ansv/guilt.git guilt-src
+
+then
+  $ cd guilt-src && make install
+
+
+Install documentation (optional)
+--------------------------------
+
+  $ make install-doc
+
+
+Deploy guilt-path extention
+---------------------------
+
+This shows the path of the current gult path and is used by many scripts below.
+
+  $ ln -s $(pwd)/guilt-path $(dirname $(which guilt))/../lib/guilt/
+
+
+Useful shortcuts
+----------------
+
+In .bashrc/.zshrc:
+
+  alias q='guilt'
+  alias qn='guilt next'
+  alias qp='guilt path'
+
+
+Extend the search path for guilt extentions
+-------------------------------------------
+
+In .bashrc/.zshrc:
+
+  PATH="/home/ac/utils/guilt-ext:$PATH"
+
+This enables the quick acess to the utilities qq, qmap, qcat, qgc and xplant.
+
+
+Add autocompletion
+------------------
+
+In .bashrc/.zshrc:
+
+  source ~/utils/guilt-ext/qcat-completion.bash  # for 'qcat'
+  source ~/utils/guilt-ext/guilt-completion.bash  # for 'guilt' and 'q'
+
+
+Hints
+-----
+
+  $ qq  # shows the current status of the patch-queue:
+	# This shows the unapplied patches, then changed files (that are not in
+	# the patches) if any, then the applied patches as an oneline git log
+	# and finally the base for the patch queue.
+
+  $ qn  # (guilt next) shows the name of the next unapplied patch
+
+  $ q fold `qn`  # fold next patch to the current one (see guilt fold)
+
+  $ qcat <patchname>  # prints the <patch> on the standard output
+
+  $ qcat `qn`  # prints the next unapplied patch on the standard output
+
+  $ qcat `qn` |xd  # brings the next unapplied patch to the vimdiff
+
+  $ qmap  # shows all files touched by each applied patch from the patch queue.
+
+  $ qmap -p  # the same as above but shows the names with the full path
+
+  $ qgc  # (guillt garbage collector) cleanups patch directory:
+	 # This deletes all automatically backed up files (that have ~ at the
+	 # end of the file name) and shows unused pathes.
+
+  $ qgc --all  # deletes all unused patches from the patch directory

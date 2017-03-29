@@ -1,0 +1,25 @@
+#!/bin/sh
+#
+# Copyright (c) Andrey Shvetsov, 2017
+#
+
+usage() {
+    echo "Usage: $0 patch" >&2
+    exit 1
+}
+
+_main() {
+    if [ $# -ne 1 ]; then
+        usage
+    fi
+
+    local qpath="$(guilt path)"
+
+    if [ ! -f "$qpath/$1" ]; then
+        usage
+    fi
+
+    cat "$qpath/$1"
+}
+
+_main "$@"
