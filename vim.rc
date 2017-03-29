@@ -33,10 +33,10 @@ let g:gitgutter_max_signs=99999
 " CtrlSpace
 nnoremap <silent><C-p> :CtrlSpace O<CR>
 let g:CtrlSpaceLoadLastWorkspaceOnStart = 1
-"let g:CtrlSpaceSaveWorkspaceOnSwitch = 1
-"let g:CtrlSpaceSaveWorkspaceOnExit = 1
+let g:CtrlSpaceSaveWorkspaceOnSwitch = 1
+let g:CtrlSpaceSaveWorkspaceOnExit = 1
 
-cnoremap :SS CtrlSpaceSave<CR>
+cnoremap :SW CtrlSpaceSave<CR>
 
 " Ack on visual selection
 vnoremap <C-a> y:Ack <C-r>=fnameescape(@")<CR><CR>
@@ -47,33 +47,29 @@ inoremap <Up> <Esc><Up>
 inoremap <Left> <Esc><Left>
 inoremap <Right> <Esc><Right>
 
-" control motions jumping between changes
-nnoremap <silent><C-Up> [c
-nnoremap <silent><C-Down> ]c
+" change active window
+nnoremap <silent><C-S-Up> <C-w>k
+nnoremap <silent><C-S-Down> <C-w>j
+nnoremap <silent><C-S-Left> <C-w>h
+nnoremap <silent><C-S-Right> <C-w>l
 
-" control motions changing active window
-nnoremap <silent><C-S-Up> :wincmd k<CR>
-nnoremap <silent><C-S-Down> :wincmd j<CR>
-nnoremap <silent><C-S-Left> :wincmd h<CR>
-nnoremap <silent><C-S-Right> :wincmd l<CR>
-
-" alt motions finding whole word
-nnoremap <silent><A-Up> *NN
+" finding motions
+nnoremap <silent><A-Up> #
 nnoremap <silent><A-Down> *
 
+nnoremap <silent>n /<CR>
+nnoremap <silent>N ?<CR>
+
+nnoremap <silent> <C-l> :nohlsearch<CR><C-l>
+cnoremap <silent> <C-l> <C-u>nohlsearch<CR><C-l>
+
 " alt motions jumping between functions
-nnoremap <silent><A-Left> [[b%b
-nnoremap <silent><A-Right> /^}<CR>:nohlsearch<CR>]]b%b
+nnoremap <silent><A-Left> [[b%0f(:YcmCompleter GoTo<CR>
+nnoremap <silent><A-Right> ]]w
 
 " recall older/recent history with matching
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
-
-" change active window
-nnoremap <silent><C-k> :wincmd k<CR>
-nnoremap <silent><C-j> :wincmd j<CR>
-nnoremap <silent><C-h> :wincmd h<CR>
-nnoremap <silent><C-l> :wincmd l<CR>
 
 " alt-shift motions moving the line up/down
 nnoremap <A-S-Up> ddkP
@@ -87,7 +83,7 @@ nnoremap <A-S-Right> >>
 inoremap <A-S-Left> <Esc><<
 inoremap <A-S-Right> <Esc>>>
 
-nmap z7 :w<CR>
+nmap z7 :w!<CR>
 nmap z1 :qa<CR>
 nmap z0 :qa!<CR>
 
@@ -106,15 +102,10 @@ nnoremap ZO :diffo<CR>
 nnoremap ZR :difft<CR>:diffu<CR>zr
 nnoremap ZM :difft<CR>:diffu<CR>zm
 
-cnoremap :WW set textwidth=72<CR>
+cnoremap :WW set textwidth=72<CR>:set syntax=diff<CR>
+
+cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 
 " abbreviations
 ab #i #include
 ab #d #define
-ab bo bool
-ab tr true
-ab fa false
-ab re return
-ab st static
-ab sw switch  <BS> " sw(
-ab wh while  <BS> " wh(
