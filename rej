@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [ $# = 0 ]; then
+  find -name '*.rej'
+else
+  find -name '*.rej' |xargs -t "$@"
+fi

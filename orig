@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [ $# = 0 ]; then
+  find -name '*.orig'
+else
+  find -name '*.orig' |xargs -t "$@"
+fi
