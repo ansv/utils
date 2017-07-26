@@ -1,4 +1,12 @@
 #!/bin/bash
+
+guilt series 2>&1 >/dev/null |grep "try guilt init" -C11 && exit 1
+
+if guilt applied |grep -q ^ && ! git rev-parse --abbrev-ref HEAD |grep -q guilt/; then
+	echo "expected branch guilt/$(git rev-parse --abbrev-ref HEAD)"
+	exit 1
+fi
+
 APPNUM=$(guilt app |wc -l)
 (
 	echo; guilt unapplied |tac
