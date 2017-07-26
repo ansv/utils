@@ -11,6 +11,6 @@ APPNUM=$(guilt app |wc -l)
 (
 	echo; guilt unapplied |tac
 	echo; git status -s -uno
-	echo; git log --color -$APPNUM --oneline |tee /dev/null
-	echo; git log --color -1 HEAD~$APPNUM --oneline --decorate |tee /dev/null
+	echo; git log -$APPNUM --oneline --decorate |sed -r "s,\(.*\<refs/patches/[^ ),]+/([^),]+).*\),(\1),"
+	echo; git log --color -1 HEAD~$APPNUM --oneline --decorate
 ) |uniq |tail -n +2
