@@ -9,17 +9,18 @@ usage() {
 }
 
 _main() {
-    if [ $# -ne 1 ]; then
+    if [ $# -gt 1 ]; then
         usage
     fi
 
     local qpath="$(guilt path)"
+    local N="${1:-$(guilt next)}"
 
-    if [ ! -f "$qpath/$1" ]; then
+    if [ ! -f "$qpath/$N" ]; then
         usage
     fi
 
-    cat "$qpath/$1"
+    cat "$qpath/$N"
 }
 
 _main "$@"
