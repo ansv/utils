@@ -64,6 +64,7 @@ flags = [
     '-Dtypeof=__typeof__',
     '-Dasm=__asm__',
 
+    '-DCONFIG_OF',
     '-DCONFIG_SMP',
     '-DCONFIG_MMU',
     '-DCONFIG_I2C',
@@ -87,6 +88,9 @@ flags = [
     '-I/home/ac/src/mld/include/uapi/asm-generic',
     '-I/home/ac/src/mld/drivers/staging/most/aim-network',
     '-I/home/ac/src/mld/drivers/staging/most/mostcore',
+
+    '-I/home/ac/src/mld/drivers/staging/most/net',
+    '-I/home/ac/src/mld/drivers/staging/most/core',
 ]
 
 
