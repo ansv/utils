@@ -1,3 +1,15 @@
+call plug#begin('~/.vim/plugged')
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
+Plug 'airblade/vim-gitgutter'
+Plug 'vim-ctrlspace/vim-ctrlspace'
+Plug 'vim-scripts/cscope.vim'
+Plug 'altercation/vim-colors-solarized', { 'do': '~/.vim/my/solarized/fix.bash' }
+Plug '~/.vim/my/ycm'
+Plug 'romainl/apprentice'
+Plug 'w0ng/vim-hybrid'
+call plug#end()
+
 set t_Co=256
 
 syntax enable
@@ -21,12 +33,12 @@ set cursorcolumn
 set background=dark
 let g:solarized_termcolors=256
 let g:solarized_contrast="high"
+let g:solarized_underline=0
+
 colorscheme solarized
 
 set laststatus=2
 set statusline=%t[%{strlen(&fenc)?&fenc:'none'},%{&ff}]%h%m%r%y%=%c,%l/%L\ %P
-
-execute pathogen#infect()
 
 let g:gitgutter_max_signs=99999
 
@@ -37,9 +49,6 @@ let g:CtrlSpaceSaveWorkspaceOnSwitch = 1
 let g:CtrlSpaceSaveWorkspaceOnExit = 1
 
 cnoremap :SW CtrlSpaceSave<CR>
-
-" Ack on visual selection
-vnoremap <C-a> y:Ack <C-r>=fnameescape(@")<CR><CR>
 
 " motions in insert mode exit insert mode
 inoremap <Down> <Esc><Down>
@@ -64,7 +73,7 @@ nnoremap <silent> <C-l> :nohlsearch<CR><C-l>
 cnoremap <silent> <C-l> <C-u>nohlsearch<CR><C-l>
 
 " alt motions jumping between functions
-nnoremap <silent><A-Left> [[b%0f(:YcmCompleter GoTo<CR>
+nnoremap <silent><A-Left> [[ge%b
 nnoremap <silent><A-Right> ]]w
 
 " recall older/recent history with matching
