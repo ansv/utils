@@ -1,0 +1,29 @@
+#!/bin/sh
+#
+# Copyright (c) Andrey Shvetsov, 2017
+#
+
+usage() {
+    echo "Usage: $0 <new-patch-name>" >&2
+    exit 1
+}
+
+_main() {
+    if [ $# -ne 1 ]; then
+        usage
+    fi
+
+    local qpath="$(guilt path)"
+    local new_name="$1"
+
+    if [ -f "$qpath/$new_name" ]; then
+    	echo "bad name" >&2
+    	exit 1
+    fi
+
+    guilt pop >/dev/null
+    guilt new "$new_name"
+    guilt fold $(guilt next)
+}
+
+_main "$@"
