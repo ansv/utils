@@ -20,18 +20,27 @@ mouse_name() {
 	echo ${LIST%:*}
 }
 
-set_dpi() {
-	echo $(ratbagctl list) >> ${LOG_FILE}
+check_mouse() {
+	# echo $(ratbagctl list) >> ${LOG_FILE}
 	if [[ $(mouse_name) == *"No devices available"* ]]; then
-		service ratbagd restart
+		sudo service ratbagd restart
 		sleep 2
 		echo "ratbagd restarted" >> ${LOG_FILE}
+		echo $(ratbagctl list) >> ${LOG_FILE}
 	fi
-	ratbagctl $(mouse_name) dpi set 2400 >> ${LOG_FILE}
+}
+
+get_dpi() {
+	echo $(ratbagctl $(mouse_name) dpi get)
+}
+
+set_dpi() {
+	ratbagctl $(mouse_name) dpi set 2400
+	echo "DPI set to 2400" >> ${LOG_FILE}
 	echo "$(date) - logitech done" >> ${LOG_FILE}
 }
 
-main () {
+dbus() {
 	# make sure script runs after screen lock/unlock as well
 	dbus-monitor --session "type='signal',interface='org.gnome.ScreenSaver'" |
 	while read x; do
@@ -47,10 +56,21 @@ main () {
 	done
 }
 
+main() {
+	while true; do
+		check_mouse
+		if [[ $(get_dpi) != *"2400dpi"*  ]]; then
+			set_dpi
+		fi
+		sleep 2
+	done
+
+}
+
 # clear log file
 > ${LOG_FILE}
 
 echo "$(date) - Logitech script executed" >> ${LOG_FILE}
 
-set_dpi
 main
+
