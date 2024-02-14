@@ -19,6 +19,8 @@ apt install \
 	git \
 	cmake \
 	python3 \
+	curl \
+	wget \
 	gnome-tweaks \
 	gnome-shell-extensions \
 	gnome-shell-extension-manager \
@@ -32,7 +34,8 @@ apt install \
 	htop \
 	thunderbird \
 	fonts-powerline \
-	gimp
+	gimp \
+	libreoffice
 
 # install vscode
 snap install --classic code
@@ -42,6 +45,12 @@ snap install spotify
 
 # install obsidian
 snap install obsidian
+
+# install brave
+curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+apt update
+apt install -y brave-browser
 
 # install Signal (https://signal.org/download/linux/)
 # NOTE: These instructions only work for 64-bit Debian-based
@@ -98,4 +107,5 @@ echo "	Ubuntu AppIndicators"
 echo "	WinTile"
 echo ""
 echo "Connect Google Account(s) (Settings > Online Accounts)"
-
+echo "Copy SSH Key to GitHub Account for syncing"
+echo "Clone GitHub repos"
