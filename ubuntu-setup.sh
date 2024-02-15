@@ -55,7 +55,6 @@ apt install -y brave-browser
 # install Signal (https://signal.org/download/linux/)
 # NOTE: These instructions only work for 64-bit Debian-based
 # Linux distributions such as Ubuntu, Mint etc.
-
 # 1. Install our official public software signing key:
 wget -O- https://updates.signal.org/desktop/apt/keys.asc | gpg --dearmor > signal-desktop-keyring.gpg
 cat signal-desktop-keyring.gpg | sudo tee /usr/share/keyrings/signal-desktop-keyring.gpg > /dev/null
@@ -94,18 +93,29 @@ ln -s ~/src/utils/tmux.conf ~/.tmux.conf
 ln -s ~/src/utils/vim.rc ~/.vimrc
 ln -s ~/src/utils/git.config ~/.gitconfig
 
+# install gnome extensions
+array=( https://extensions.gnome.org/extension/3628/arcmenu/
+	https://extensions.gnome.org/extension/1160/dash-to-panel/
+	https://extensions.gnome.org/extension/2087/desktop-icons-ng-ding/
+	https://extensions.gnome.org/extension/1476/unlock-dialog-background/
+	https://extensions.gnome.org/extension/7/removable-drive-menu/
+	https://extensions.gnome.org/extension/4548/tactile/
+	https://extensions.gnome.org/extension/1723/wintile-windows-10-window-tiling-for-gnome/
+for i in "${array[@]}"
+do
+    EXTENSION_ID=$(curl -s $i | grep -oP 'data-uuid="\K[^"]+')
+    VERSION_TAG=$(curl -Lfs "https://extensions.gnome.org/extension-query/?search=$EXTENSION_ID" | jq '.extensions[0] | .shell_version_map | map(.pk) | max')
+    wget -O ${EXTENSION_ID}.zip "https://extensions.gnome.org/download-extension/${EXTENSION_ID}.shell-extension.zip?version_tag=$VERSION_TAG"
+    gnome-extensions install --force ${EXTENSION_ID}.zip
+    if ! gnome-extensions list | grep --quiet ${EXTENSION_ID}; then
+        busctl --user call org.gnome.Shell.Extensions /org/gnome/Shell/Extensions org.gnome.Shell.Extensions InstallRemoteExtension s ${EXTENSION_ID}
+    fi
+    gnome-extensions enable ${EXTENSION_ID}
+    rm ${EXTENSION_ID}.zip
+done
+
 echo "Things to do:"
 echo "Download SF Fonts and copy them into ~/.fonts (https://developer.apple.com/fonts/)"
-echo "Install Gnome Extensions: https://extensions.gnome.org/"
-echo "	ArcMenu"
-echo "	Dash to Panel"
-echo "	Desktop Icons NG (DING)"
-echo "	Lock screen background"
-echo "	Removable Drive Menu"
-echo "	Tactile"
-echo "	Ubuntu AppIndicators"
-echo "	WinTile"
-echo ""
 echo "Connect Google Account(s) (Settings > Online Accounts)"
-echo "Copy SSH Key to GitHub Account for syncing"
+echo "Create and copy SSH Key to GitHub Account for syncing"
 echo "Clone GitHub repos"
