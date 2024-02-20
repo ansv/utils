@@ -36,6 +36,11 @@ ZSH_THEME="amuse_own"
 
 # Uncomment the following line to disable colors in ls.
 # DISABLE_LS_COLORS="true"
+export LS_COLORS="$LS_COLORS:ow=30;44:" # fix ls color for folders with 777 permissions
+# remove ls highlight color
+_ls_colors=":ow=01;33"
+zstyle ':completion:*:default' list-colors "${(s.:.)_ls_colors}"
+LS_COLORS+=$_ls_colors
 
 # Uncomment the following line to disable auto-setting terminal title.
 # DISABLE_AUTO_TITLE="true"
