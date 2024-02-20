@@ -92,6 +92,7 @@ source ~/.zshrc
 ln -s ~/src/utils/tmux.conf ~/.tmux.conf
 ln -s ~/src/utils/vim.rc ~/.vimrc
 ln -s ~/src/utils/git.config ~/.gitconfig
+ln -s ~/src/utils/xd /usr/local/bin/xd
 
 # install gnome extensions
 array=( https://extensions.gnome.org/extension/3628/arcmenu/
