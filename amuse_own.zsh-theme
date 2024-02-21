@@ -7,9 +7,9 @@
 # %F{9} = redish
 # %F{10} = greenish
 # %F{11} = yellowish
-ZSH_THEME_GIT_PROMPT_PREFIX="%{%F{magenta}%}\ue725 "
+ZSH_THEME_GIT_PROMPT_PREFIX="%{%F{69}%}\ue725 "
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_DIRTY="%{%F{9}%} \u2301"
+ZSH_THEME_GIT_PROMPT_DIRTY="%{%F{202}%} \u2301"
 ZSH_THEME_GIT_PROMPT_UNTRACKED="%{%F{green}%}?"
 ZSH_THEME_GIT_PROMPT_CLEAN=""
 
@@ -17,8 +17,8 @@ ZSH_THEME_RUBY_PROMPT_PREFIX="%{$fg_bold[red]%}‹"
 ZSH_THEME_RUBY_PROMPT_SUFFIX="›%{$reset_color%}"
 
 PROMPT='
-%{%F{blue}%}%{%F{10}%} %~ $(git_prompt_info)$(virtualenv_prompt_info)
-%{%F{blue}%}%{%F{8}%}$ %{$reset_color%}'
+%{%F{blue}%}%{%F{34}%} %~ $(git_prompt_info)$(virtualenv_prompt_info)
+%{%F{blue}%}%{%F{227}%}❭ %{$reset_color%}'
 
 RPROMPT='$(ruby_prompt_info)'
 
