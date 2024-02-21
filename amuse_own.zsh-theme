@@ -3,6 +3,7 @@
 # Must use Powerline font, for \uxxxx to render.
 # color codes: bash 256 colors
 # https://superuser.com/questions/1425184/remote-zsh-doesnt-print-in-256-color-though-terminal-can-print
+# https://misc.flogisoft.com/bash/tip_colors_and_formatting
 # %F{8} = dark grey
 # %F{9} = redish
 # %F{10} = greenish
